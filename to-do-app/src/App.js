@@ -3,8 +3,9 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 
 function App() {
+
   return (
-    <div className="App relative grid">
+    <div className="App relative">
       <Sidebar />
     </div>
   );
