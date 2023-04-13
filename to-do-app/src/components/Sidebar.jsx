@@ -1,23 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Tasks from '../features/tasks/Tasks';
+
 export default function Sidebar() {
 
     const [sidebar, setSidebar] = useState(false);
     const [component, setComponent] = useState();
+    const sidebarRef = useRef(null);
+    const iconRef = useRef(null);
 
     useEffect( () => {
+        window.addEventListener("click", handleClickOutsideSidebar);
+        return () => window.removeEventListener("click", handleClickOutsideSidebar);
+    }, []);
 
-    }, [component]);
 
+    const handleClickOutsideSidebar = (event) => {
+        if (sidebarRef.current && !sidebarRef.current.contains(event.target))
+            if (iconRef.current && ! iconRef.current.contains(event.target)) setSidebar(true);
+    }
 
     return (
         <div className="flex w-screen overflow-scroll">
 
-        <div className={`flex transition-all duration-150 flex-col ${sidebar ? '-translate-x-full' : 'translate-x-0'} p-3 w-60 shadow-md shadow-black/20 h-screen text-black justify-between`}>
+            <div ref={sidebarRef} className={`flex transition-all duration-150 flex-col ${sidebar ? '-translate-x-full' : 'translate-x-0'} p-3 w-60 shadow-md shadow-black/20 h-screen text-black justify-between`}>
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
                         <h2>Dashboard</h2>
-                        <button onClick={() => setSidebar(prev => !prev)} className="p-2 absolute left-[13rem] text-black">
+                        <button ref={iconRef} onClick={() => setSidebar(prev => !prev)} className="shadow-sm shadow-black/10 rounded-full p-2 absolute left-[13.2rem] text-black">
                             {   
                                 sidebar
                                 ?
@@ -33,7 +42,7 @@ export default function Sidebar() {
                         </button>
                     </div>
                     
-                    <div className="flex-1">
+                    <div className="flex-1" >
                         <ul className="pt-2 pb-4 space-y-1 text-sm">
                             <li onClick={() => setComponent()} className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
                                 <a href="df" className="flex items-center p-2 space-x-3 rounded-md">
