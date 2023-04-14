@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     status: "empty",
-    value : [{}]
+    value : []
 }
 
 export const taskSlice = createSlice( {
