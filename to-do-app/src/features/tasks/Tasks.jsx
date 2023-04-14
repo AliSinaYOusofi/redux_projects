@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import ToastMessage from '../../components/ToastMessage';
 import { dateValidator } from '../../functions/dateValidator';
+import { addTodos } from './taskSlice';
+import {useDispatch} from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+
 export default function Tasks() {
 
     const [taskName, setTaskName] = useState(null);
@@ -8,6 +12,7 @@ export default function Tasks() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [error, setError] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSbumit = () => {
         if (! taskName) setError("Task name is required");
@@ -15,6 +20,8 @@ export default function Tasks() {
         else if (! endDate) setError("End Date is required");
         else if (! dateValidator(startDate, endDate)) setError("Start and end date are not compatible");
         else setError(false);
+
+        dispatch(addTodos({id: uuidv4(), taskName, startDate, endDate, description}));
     }   
     return (
         <div className="w-full h-full flex items-center justify-center">

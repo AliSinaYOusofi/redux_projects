@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Tasks from '../features/tasks/Tasks';
+import TodosList from '../features/tasks/TodosList';
+import CompleteTasks from '../features/deletedTasks/CompleteTasks';
 
 export default function Sidebar() {
 
@@ -22,7 +24,7 @@ export default function Sidebar() {
     return (
         <div className="flex w-screen overflow-scroll">
 
-            <div ref={sidebarRef} className={`flex transition-all duration-150 flex-col ${sidebar ? '-translate-x-full' : 'translate-x-0'} p-3 w-60 shadow-md shadow-black/20 h-screen text-black justify-between`}>
+            <div ref={sidebarRef} className={`flex transition-all duration-150 flex-col ${sidebar ? '-translate-x-full' : 'translate-x-0'} p-3 w-60 shadow-sm shadow-black/10 h-screen text-black justify-between`}>
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
                         <h2>Dashboard</h2>
@@ -44,25 +46,17 @@ export default function Sidebar() {
                     
                     <div className="flex-1" >
                         <ul className="pt-2 pb-4 space-y-1 text-sm">
-                            <li onClick={() => setComponent()} className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
-                                <a href="df" className="flex items-center p-2 space-x-3 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                                    </svg>
-
-                                    <span>Home</span>
-                                </a>
-                            </li>
+                            
                             <li onClick={() => setComponent(<Tasks />)} className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
                                 <p rel="noopener noreferrer" className="flex items-center p-2 space-x-3 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122" />
                                     </svg>
 
-                                    <span>Tasks</span>
+                                    <span>Add Task</span>
                                 </p>
                             </li>
-                            <li className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
+                            <li onClick={() => setComponent(<CompleteTasks />)} className=" transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
                                 <p rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0118 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3l1.5 1.5 3-3.75" />
@@ -71,7 +65,7 @@ export default function Sidebar() {
                                     <span>Completed Tasks</span>
                                 </p>
                             </li>
-                            <li className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
+                            <li onClick={() => setComponent(<TodosList />)} className="rounded-sm transition-all duration-300 hover:bg-gray-100 cursor-pointer rounded-md">
                                 <p rel="noopener noreferrer" href="#" className="flex items-center p-2 space-x-3 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
