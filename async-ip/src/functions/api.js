@@ -1,0 +1,1 @@
+export const api = (ip) => `https://ipapi.co/${ip}/json`;
