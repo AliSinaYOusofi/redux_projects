@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ToastMessage from '../../components/ToastMessage';
 import { isValidIPAddress } from '../../functions/isValidIP';
 import { getIpDetails } from './ipSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import DisplayIpData from './DisplayIpData';
 
 
