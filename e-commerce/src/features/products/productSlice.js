@@ -21,7 +21,6 @@ export const fetchProducts = createAsyncThunk('product/fetchProducts', async () 
         headers: {"Content-Type": "application/json"}
     });
     const json = await response.json();
-    console.log(json);
     return json.products
 });
 
@@ -38,8 +37,6 @@ export const productSlice = createSlice({
         })
         .addCase(fetchProducts.fulfilled, (state, action) => {
             state.status = "success";
-            console.log(state);
-            console.log(action.payload);
             productAdapter.upsertMany(state, action.payload)
         })
         .addCase(fetchProducts.rejected, (state, action) => {
