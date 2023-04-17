@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Login from './features/auth/Login';
 import Signup from './features/auth/Signup';
 import Products from './features/products/Products';
+import Footer from './components/Footer';
+import Categories from './features/productCategory/Categories';
 
 function App() {
   return (
@@ -15,8 +17,10 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/product" element={<Products />} />
+          <Route exact path="/categories/:category" element={<Categories />} />
         </Routes>
       </Router>
+      <Footer />
     </div>
   );
 }

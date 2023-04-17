@@ -4,7 +4,7 @@ import { getCurrentId } from '../features/auth/signupSlice'
 
 export default function Navbar() {
     return (
-        <header className="flex flex-wrap sm:justify-start rounded-md sm:flex-nowrap z-50   text-sm py-4 bg-gray-100 fixed w-[90%] top-3 left-0 right-0 mx-auto">
+        <header className="flex flex-wrap sm:justify-start rounded-md sm:flex-nowrap z-50   text-sm py-4 bg-gray-100 fixed w-[90%] top-1 left-0 right-0 mx-auto">
             <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
                 <div className="flex items-center justify-between">
                 <Link className="inline-flex text-black items-center gap-x-2 text-xl font-semibold ">
