@@ -1,30 +1,35 @@
 import React from 'react'
-import {v4 as uuid} from 'uuid';
-import {useDispatch} from 'react-redux';
-import { signupUser } from './signupSlice';
-import { useNavigate } from 'react-router';
+import { checkUserId } from './signupSlice';
+import {useDispatch, useSelector} from 'react-redux';
 
-export default function Login() {
+import { useNavigate } from 'react-router';
+import { generateHash } from '../../func/genHash';
+
+export default function Signup() {
     
     const [password, setPassword] = React.useState("");
     const [username, setUsername] = React.useState("");  
+    const error = useSelector(state => state.user.error);
+    const status = useSelector(state => state.user.status);
     
     const navigation = useNavigate();
     const dispatch = useDispatch();
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
 
         if (!password) return alert("provide a password");
         else if (!username) return alert("Provide an email");
-
-        // dispatching new user here
-        dispatch(signupUser({
-            id: uuid(),
-            username,
-            password
-        }));
+        let id  =  generateHash(username, password);
+        let {payload } =  dispatch(checkUserId({username, password, id}))
         
-        navigation("/login");
+        
+        if (status === "success") {
+            console.log("user is loggedin ", error);
+            localStorage.setItem("token", payload.id);
+            navigation("/product");
+        } else {
+            alert(error + 'not registered');
+        }
     }
 
     return (
@@ -47,10 +52,11 @@ export default function Login() {
                   border-gray-300 rounded-md"/>
             </div>
                 <div className="relative">
-                <button type="button" onClick={handleSubmit} className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-500
-                    rounded-lg transition duration-200 hover:bg-indigo-600 ease">Signup</button>
+                    <button type="button" onClick={handleSubmit} className="w-full inline-block pt-4 pr-5 pb-4 pl-5 text-xl font-medium text-center text-white bg-indigo-200
+                        rounded-lg transition duration-200 hover:bg-indigo-600 ease">Login</button>
                 </div>
             </div>
+            {status && <p>Loading...</p>}
         </div>
     );
 }
