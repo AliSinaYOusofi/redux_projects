@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { getCurrentId } from '../features/auth/signupSlice'
+import { getCurrentId } from '../features/auth/authSlice'
 
 export default function Navbar() {
     return (

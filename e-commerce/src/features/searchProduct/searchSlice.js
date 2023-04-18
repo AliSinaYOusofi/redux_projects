@@ -53,6 +53,7 @@ export const searchSlice = createSlice({
         .addCase(getSearchProduct.fulfilled, (state, action) => {
             state.status = "succeeded";
             searchAdapter.setAll(state, action.payload);
+            state.error = null
         })
         .addCase(getSearchProduct.rejected, (state, action) => {
             state.status = "failed";
