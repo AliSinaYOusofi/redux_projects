@@ -1,7 +1,7 @@
 import React from 'react'
-import { checkUserId } from './signupSlice';
+import { checkUserId } from './authSlice';
 import {useDispatch, useSelector} from 'react-redux';
-
+import { updateAuthStatus } from './authSlice';
 import { useNavigate } from 'react-router';
 import { generateHash } from '../../func/genHash';
 
@@ -15,16 +15,19 @@ export default function Signup() {
     const navigation = useNavigate();
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        return () => dispatch(updateAuthStatus("idle"))
+    }, [dispatch])
+
     const handleSubmit = () => {
 
         if (!password) return alert("provide a password");
         else if (!username) return alert("Provide an email");
         let id  =  generateHash(username, password);
-        let {payload } =  dispatch(checkUserId({username, password, id}))
+        let {payload } =  dispatch(checkUserId({id}))
         
         
-        if (status === "success") {
-            console.log("user is loggedin ", error);
+        if (!error) {
             localStorage.setItem("token", payload.id);
             navigation("/product");
         } else {

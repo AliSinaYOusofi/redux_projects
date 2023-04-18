@@ -10,7 +10,7 @@ const initialState = {
 }
 
 
-const signupSlice = createSlice({
+const authSlice = createSlice({
     
     name: "user",
     
@@ -19,6 +19,7 @@ const signupSlice = createSlice({
         signupUser(state, action) {
             
             const {id} = action.payload;
+            
             const userExists = state.value.find(user => user.id === id);
             
             if (userExists) {
@@ -38,18 +39,14 @@ const signupSlice = createSlice({
         },
 
         checkUserId (state, action) {
-            const {id} = action.payload;
-
-            const userExists = state.value.find(user => user.id === id);
             
-            console.log(userExists, 'user exists');
+            const {id} = action.payload;
+            const userExists = state.value.find(user => user.id === id);
 
             if (Boolean(userExists)) {
-                console.log('if');
-                
                 return {
                     ...state,
-                    error: null,
+                    error: true,
                     status: "sucess"   
                 }
             }
@@ -61,8 +58,18 @@ const signupSlice = createSlice({
             }
         },
 
+        resetState (state, action) {
+            return initialState
+        },
+
+        updateAuthStatus: (state, action) => {
+            return {
+                ...state,
+                status: action.payload
+            }
+        },
     },
 });
 
-export const { signupUser, checkUserId } = signupSlice.actions;
-export default signupSlice.reducer;
+export const { signupUser, checkUserId, updateAuthStatus } = authSlice.actions;
+export default authSlice.reducer;

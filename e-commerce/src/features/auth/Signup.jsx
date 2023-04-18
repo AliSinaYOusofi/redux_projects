@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux';
-import { signupUser } from './signupSlice';
+import { signupUser } from './authSlice';
 import { useNavigate } from 'react-router';
 import { generateHash } from '../../func/genHash';
 
