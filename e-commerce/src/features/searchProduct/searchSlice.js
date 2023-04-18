@@ -18,6 +18,18 @@ export const getSearchProduct = createAsyncThunk("search/getSearchProduct", asyn
     const json = await response.json();
     console.log(json, 'searched products');
     return json.products;
+});
+
+export const searchByTitle = createAsyncThunk("search/searchByTitle", async (title) => {
+    
+    const response = await fetch(`https://dummyjson.com/products?select=${title}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    });
+
+    const json = await response.json();
+    console.log(json, 'searched by ttitle', title);
+    return json.products;
 })
 
 const initialState = searchAdapter.getInitialState({
@@ -46,8 +58,19 @@ export const searchSlice = createSlice({
             state.status = "failed";
             state.error = action.error.message;
         })
+        .addCase(searchByTitle.pending, (state) => {
+            state.status = "loading"
+        })
+        .addCase(searchByTitle.fulfilled, (state, action) => {
+            state.status = "success"
+            searchAdapter.setAll(state, action.payload);
+        })
+        .addCase(searchByTitle.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.error.message;
+        })
     }
-});
+})
 
 export const {selectAll: selectAllSearch} = searchAdapter.getSelectors((state) => state.search);
 
