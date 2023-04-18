@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react'
-import { selectAllSearch } from './searchSlice';
+import { searchByTitle, selectAllSearch } from './searchSlice';
 
 import { useDispatch } from 'react-redux';
 import { getSearchProduct } from './searchSlice';
@@ -30,6 +30,15 @@ export default function SearchProduct() {
         }
     }
     const searchResultList = searchResults.map(item => <ProductCard brand={item.brand || null} thumbnail={item.images[0]} title={item.title} id={item.id} price={item.price} image={item.image} description={item.description} category={item.category} rating={item.rating} key={item.id} />);
+    
+    if (searchResults.length === 0 && search && status === "succeeded") {
+        return (
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="text-3xl font-bold">No Products Found</h1>
+                <i className="text-lg">Please a different keyword</i>
+            </div>
+        )
+    }
     return (
         <>
             <div className="mb-3">
@@ -60,22 +69,33 @@ export default function SearchProduct() {
                     </button>
                 </div>
             </div>
+            
             {
-                loading 
-                ? <div className="w-12 h-12 rounded-full animate-spin absolute left-[50%] mt-4
-                    border-x-8 border-solid border-purple-500 border-t-transparent shadow-md"></div> 
-                : null
+                loading ? (
+                    <div className="w-12 h-12 rounded-full animate-spin absolute left-[50%] mt-4 border-x-8 border-solid border-purple-500 border-t-transparent shadow-md"></div>
+                ) : null
             }
-            <h1> {error}</h1>
+
+            <h1>{error}</h1>
+
             {
-                status === "succeeded" && searchResults.length ? <h1 className="text-center text-4xl font-semibold mt-10 mb-10"> Search Results For : {search}</h1> : null
+                status === "succeeded" && searchResults.length ? (
+                    <h1 className="text-center text-4xl font-semibold mt-10 mb-10">Search Results For: {search}</h1>
+                ) : null
             }
+
             <div className="mt-10 mb-5 flex w-full h-full flex-wrap gap-x-3 gap-y-4 justify-center items-center">
                 {searchResultList}
             </div>
+
             {
-               status === "succeeded" && !searchResults.length ? <h1 className="text-center mx-auto text-4xl font-semibold mt-10 mb-10 bg-red-600 p-2 rouned-md  w-fit"> No Results Found For {search}</h1> : null
+                status === "succeeded" && !searchResults.length ? (
+                    <h1 className="text-center mx-auto text-4xl font-semibold mt-10 mb-10 bg-red-600 p-2 rounded-md w-fit">
+                        No Results Found For {search}
+                    </h1>
+                ) : null
             }
+
         </>
     )
 }

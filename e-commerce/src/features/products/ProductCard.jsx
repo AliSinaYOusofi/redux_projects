@@ -6,7 +6,7 @@ export default function ProductCard({brand, description, price, thumbnail, id, t
     return (
         <div className="w-full hover:shadow-xl transition-all duration-300 ease-in-out max-w-sm bg-white border border-gray-200 rounded-md text-black shadow-sm ">
             
-            <Link to={`/product/$`} id={id} href="#" className="w-full h-full">
+            <Link to={`/product/${id}`} id={id} href="#" className="w-full h-full">
                 <img className="w-full rounded-t-md h-[13rem] object-cover" src={thumbnail} alt={thumbnail}   />
             </Link>
             
