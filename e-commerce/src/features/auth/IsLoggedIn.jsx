@@ -1,47 +1,60 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getAllProductsInCart, getProductWithGivenId, } from '../cart/cartSlice';
+import {  getProductByIdInCart, getProductWithGivenId, } from '../cart/cartSlice';
+import { updateStatus } from '../cart/cartSlice';
 
-export default function IsLoggedIn({message: errorMessage, isCartMessage, productId}) {
+function IsLoggedIn({message: errorMessage, isCartMessage, productId}) {
     
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [disableButton, setDisableButton] = useState(false);
+    const [saved, setSavedStatus] = useState(false);
     const status = useSelector(state => state.cart.status);
     const error = useSelector(state => state.cart.error);
-
+    const productExistsInCart = useSelector(state => getProductByIdInCart(state, productId));
     const dispatch = useDispatch();
 
     useEffect( () => {
         setIsLoggedIn(localStorage.getItem('token'));
     }, []);
 
-    const defaultButtonClass = "text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800";
-    const defaultCartClass = "text-white w-full bg-gray-200 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300 ease-in-out";
+    React.useEffect( () => {
+        return () => dispatch(updateStatus('idle'))
+    }, [dispatch])
+
+    React.useEffect( () => {
+        setSavedStatus(status === "success");
+    }, [status])
+
+    const defaultButtonClass = "text-white w-full bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center";
+    const defaultCartClass = "text-white w-full bg-gray-200 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300 ease-in-out";
     
     // saving product
 
     const addProductToCart = () => {
         
-        
-        
+        if (productExistsInCart) return alert("product already in your cart");
         if (isCartMessage) { // adding to cart
 
         }
         
-        // adding to wishlist
+        // adding to cart
         dispatch(getProductWithGivenId(productId))
-        if (status === "success") {
-            setDisableButton(true)
-            return alert("Saved to cart");
-        }
+        if (status === "success" || saved) return alert("saved to cart")
     }
 
     return (
-        <div className="flex items-center justify-between w-full">
+        <div className="flex relative items-center justify-between w-full">
             
             {isLoggedIn ? (
-                <button disabled={disableButton} onClick={addProductToCart} href="#" className={`${!isCartMessage ? defaultButtonClass : defaultCartClass} ${disableButton ? "cursor-not-allowed" : "cursor-pointer"}` }>{isCartMessage || "Add to cart"}</button>
+                <button  onClick={addProductToCart} href="#" className={`${!isCartMessage ? defaultButtonClass : defaultCartClass} relative` }>
+                    {isCartMessage || "Add to cart"}
+                    {
+                        status === "loading" 
+                        ? 
+                        <div className="absolute left-10 top-0 w-12 h-12 rounded-full animate-spin border border-solid border-indigo-500 border-t-transparent"></div>                    
+                        : null
+                    }
+                </button>
             ) : (
                 <p className="p-1 bg-red-500 text-white rounded-sm line-clamp-1">{errorMessage}</p>
             )}
@@ -56,7 +69,8 @@ export default function IsLoggedIn({message: errorMessage, isCartMessage, produc
                 </div>
                 : null
             }
-
         </div>
     )
 }
+
+export default React.memo(IsLoggedIn)
