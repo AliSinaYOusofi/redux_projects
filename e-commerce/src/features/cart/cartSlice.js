@@ -26,10 +26,16 @@ export const cartSlice = createSlice({
     initialState,
 
     reducers: {
-        scheckExistsInCart(state, action) {
-            const {id} = action.payload;
-            const currentInCart = getProductCartById(state, id);
-            console.log(currentInCart);
+        updateStatus(state, action) {
+            return {
+                ...state,
+                status: action.payload
+            }
+        },
+
+        deleteFromCart(state, action) {
+            const id = action.payload;
+            cartAdapter.removeOne(state, id);
         }
     },
     extraReducers(builder) {
@@ -52,10 +58,11 @@ export const cartSlice = createSlice({
 
 export const {
     selectAll: getAllProductsInCart,
-    selectById: getProductCartById,
-} = cartAdapter.getInitialState(state => state.cart);
+    selectById: getProductByIdInCart,
+} = cartAdapter.getSelectors(state => state.cart);
 
 export const {
-    checkExistsInCart
+    updateStatus,
+    deleteFromCart
 } = cartSlice.actions;
 export default cartSlice.reducer;

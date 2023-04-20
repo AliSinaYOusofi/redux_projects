@@ -8,6 +8,7 @@ import Products from './features/products/Products';
 import Footer from './components/Footer';
 import Categories from './features/productCategory/Categories';
 import SinleProductPage from './features/products/SinleProductPage';
+import UserCart from './features/cart/UserCart';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/product/" element={<Products />} />
           <Route exact path="/product/:productId" element={<SinleProductPage />} />
           <Route exact path="/categories/:category" element={<Categories />} />
+          <Route exact path="/cart" element={<UserCart />} />
         </Routes>
       </Router>
       <Footer />

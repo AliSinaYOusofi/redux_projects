@@ -20,12 +20,7 @@ export default function Categories() {
         setLoading(status === 'loading');
 
         if (status === 'idle') {
-            console.log('dispatching getCategories with category', category);
             dispatch(getCategories(category));
-            console.log(status, 'after dispatch status');
-        } else if (status === 'succeeded'){
-            console.log(status, ' in else');
-            
         }
         
     }, [status, dispatch, category]);

@@ -92,7 +92,7 @@ export default function SinleProductPage() {
                         <p className="text-gray-600">{productWithGivenId.description}</p>
                     </div>
                     
-                    <div className="flex flex-col justify-between">
+                    <div className="flex flex-col gap-y-2 justify-between">
                         <IsLoggedIn productId={productWithGivenId.id} message={"Login To Add To Cart"}/>
                         <IsLoggedIn productId={productWithGivenId.id} message={"Login To Add To WhishList"} isCartMessage={"Add to whishlist"}/>
                     </div>
