@@ -26,7 +26,11 @@ export const cartSlice = createSlice({
     initialState,
 
     reducers: {
-
+        scheckExistsInCart(state, action) {
+            const {id} = action.payload;
+            const currentInCart = getProductCartById(state, id);
+            console.log(currentInCart);
+        }
     },
     extraReducers(builder) {
         builder
@@ -50,4 +54,8 @@ export const {
     selectAll: getAllProductsInCart,
     selectById: getProductCartById,
 } = cartAdapter.getInitialState(state => state.cart);
+
+export const {
+    checkExistsInCart
+} = cartSlice.actions;
 export default cartSlice.reducer;

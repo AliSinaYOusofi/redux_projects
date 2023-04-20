@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getProductWithGivenId } from '../cart/cartSlice';
+import { getAllProductsInCart, getProductWithGivenId, } from '../cart/cartSlice';
 
 export default function IsLoggedIn({message: errorMessage, isCartMessage, productId}) {
     
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [disableButton, setDisableButton] = useState(false);
     const status = useSelector(state => state.cart.status);
-    const productAlreadyInCart = useSelector(state => getProductWithGivenId(state, productId))
     const error = useSelector(state => state.cart.error);
 
     const dispatch = useDispatch();
@@ -24,16 +23,17 @@ export default function IsLoggedIn({message: errorMessage, isCartMessage, produc
 
     const addProductToCart = () => {
         
-        if (productAlreadyInCart) return alert("Product already in the cart");
+        
         
         if (isCartMessage) { // adding to cart
 
         }
         
         // adding to wishlist
-        dispatch(getProductWithGivenId(productId));
+        dispatch(getProductWithGivenId(productId))
         if (status === "success") {
             setDisableButton(true)
+            return alert("Saved to cart");
         }
     }
 
