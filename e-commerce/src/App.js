@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -12,12 +12,6 @@ import Homepage from './components/Homepage';
 
 function App() {
 
-  const [token, setToken] = useState(null);
-
-  React.useEffect( () => {
-    const token = localStorage.getItem('token');
-    setToken(token);
-  }, [setToken])
 
   return (
     <div className="App">
@@ -30,7 +24,7 @@ function App() {
           <Route exact path="/product/" element={<Products />} />
           <Route exact path="/product/:productId" element={<SinleProductPage />} />
           <Route exact path="/categories/:category" element={ <Categories />} />
-          <Route exact path="/cart" element={token ? <UserCart /> : <Login />} />
+          <Route exact path="/cart" element={<UserCart />} />
         </Routes>
       </Router>
       
