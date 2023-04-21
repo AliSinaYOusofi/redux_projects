@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import {  getProductByIdInCart, getProductWithGivenId, } from '../cart/cartSlice';
 import { updateStatus } from '../cart/cartSlice';
 
-function IsLoggedIn({message: errorMessage, isCartMessage, productId}) {
+function IsLoggedIn({message: errorMessage, productId}) {
     
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [saved, setSavedStatus] = useState(false);
     const status = useSelector(state => state.cart.status);
     const error = useSelector(state => state.cart.error);
     const productExistsInCart = useSelector(state => getProductByIdInCart(state, productId));
@@ -21,37 +20,27 @@ function IsLoggedIn({message: errorMessage, isCartMessage, productId}) {
         return () => dispatch(updateStatus('idle'))
     }, [dispatch])
 
-    React.useEffect( () => {
-        setSavedStatus(status === "success");
-    }, [status])
-
-    const defaultButtonClass = "text-white w-full bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center";
-    const defaultCartClass = "text-white w-full bg-gray-200 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300 ease-in-out";
-    
+    const defaultButtonClass = "text-white w-full bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center";    
     // saving product
 
     const addProductToCart = () => {
         
         if (productExistsInCart) return alert("product already in your cart");
-        if (isCartMessage) { // adding to cart
-
-        }
         
         // adding to cart
         dispatch(getProductWithGivenId(productId))
-        if (status === "success" || saved) return alert("saved to cart")
     }
 
     return (
         <div className="flex relative items-center justify-between w-full">
             
             {isLoggedIn ? (
-                <button  onClick={addProductToCart} href="#" className={`${!isCartMessage ? defaultButtonClass : defaultCartClass} relative` }>
-                    {isCartMessage || "Add to cart"}
+                <button  onClick={addProductToCart} href="#" className={`${defaultButtonClass} relative` }>
+                    Add to cart
                     {
                         status === "loading" 
                         ? 
-                        <div className="absolute left-10 top-0 w-12 h-12 rounded-full animate-spin border border-solid border-indigo-500 border-t-transparent"></div>                    
+                        <div className="absolute right-3 top-2 w-6 h-6 rounded-full animate-spin border border-solid border-neutral-100  border-t-transparent"></div>                    
                         : null
                     }
                 </button>

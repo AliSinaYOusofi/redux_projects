@@ -7,6 +7,7 @@ const initialState = {
     value: [],
     status: "idle",
     error : null,
+    exists: null
 }
 
 
@@ -16,6 +17,7 @@ const authSlice = createSlice({
     
     initialState,
     reducers: {
+        
         signupUser(state, action) {
             
             const {id} = action.payload;
@@ -26,50 +28,21 @@ const authSlice = createSlice({
                 return {
                     ...state,
                     error: "user already exists",
-                    status: "success",  
+                    status: "failed", 
+                    exists: true 
                 }
             }
             
             return {
                 ...state,
                 value: [...state.value, action.payload],
-                error: null,
-                
-            }
-        },
-
-        checkUserId (state, action) {
-            
-            const {id} = action.payload;
-            const userExists = state.value.find(user => user.id === id);
-
-            if (Boolean(userExists)) {
-                return {
-                    ...state,
-                    error: true,
-                    status: "sucess"   
-                }
-            }
-            
-            return {
-                ...state,
                 error: false,
-                status: "fail"
+                status: "success",
+                exists: false
             }
-        },
-
-        resetState (state, action) {
-            return initialState
-        },
-
-        updateAuthStatus: (state, action) => {
-            return {
-                ...state,
-                status: action.payload
-            }
-        },
+        }
     },
 });
 
-export const { signupUser, checkUserId, updateAuthStatus } = authSlice.actions;
+export const { signupUser } = authSlice.actions;
 export default authSlice.reducer;

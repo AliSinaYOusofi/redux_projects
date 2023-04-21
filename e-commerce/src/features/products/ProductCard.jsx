@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import IsLoggedIn from '../auth/IsLoggedIn'
 
+
 export default function ProductCard({brand, description, price, thumbnail, id, title, rating, category}) {
 
     return (
@@ -27,7 +28,7 @@ export default function ProductCard({brand, description, price, thumbnail, id, t
                 </div>
                 
                 <div className="flex items-center justify-between">
-                    <IsLoggedIn message={"Please login to add to cart"}/>
+                    <IsLoggedIn key={id} productId={id} message={"Please login to add to cart"}/>
                 </div>
                 <div className="w-full mt-2 flex items-center justify-between">
                     <Link className="bg-[#F9FAFB] text-sm hover:bg-gray-300 transition-all duration-300 font-light p-1 rounded-md" to={`/categories/${category}`}>

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts, selectAllProducts } from './productSlice';
 import ProductCard from './ProductCard';
 import SearchProduct from '../searchProduct/SearchProduct';
-import { useParams } from 'react-router';
 
 export default function Products() {
 
@@ -26,9 +25,6 @@ export default function Products() {
     }
     
     const ProductsCard = allProducts.map(item => <ProductCard brand={item.brand || null} thumbnail={item.images[0]} title={item.title} id={item.id} price={item.price} image={item.image} description={item.description} category={item.category} rating={item.rating} key={item.id} />)
-    
-    // if we have a the product id then we return that piece only
-
     
     return (
         <div className="mt-20 ">

@@ -1,7 +1,5 @@
 import React from 'react'
-import { checkUserId } from './authSlice';
-import {useDispatch, useSelector} from 'react-redux';
-import { updateAuthStatus } from './authSlice';
+import {useSelector} from 'react-redux';
 import { useNavigate } from 'react-router';
 import { generateHash } from '../../func/genHash';
 
@@ -9,30 +7,24 @@ export default function Signup() {
     
     const [password, setPassword] = React.useState("");
     const [username, setUsername] = React.useState("");  
-    const error = useSelector(state => state.user.error);
     const status = useSelector(state => state.user.status);
-    
-    const navigation = useNavigate();
-    const dispatch = useDispatch();
+    const allUsers = useSelector(state => state.user);
 
-    React.useEffect(() => {
-        return () => dispatch(updateAuthStatus("idle"))
-    }, [dispatch])
+    const navigation = useNavigate()
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         if (!password) return alert("provide a password");
         else if (!username) return alert("Provide an email");
+        
         let id  =  generateHash(username, password);
-        let {payload } =  dispatch(checkUserId({id}))
+        let result = allUsers.value.find(user => user.id === id);
         
-        
-        if (!error) {
-            localStorage.setItem("token", payload.id);
-            navigation("/product");
-        } else {
-            alert(error + 'not registered');
+        if (result) {
+            localStorage.setItem('token', result.id);
+            return navigation('/product');
         }
+        alert('not registered');
     }
 
     return (

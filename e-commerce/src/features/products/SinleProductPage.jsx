@@ -6,8 +6,10 @@ import { Link } from 'react-router-dom';
 import IsLoggedIn from '../auth/IsLoggedIn';
 
 export default function SinleProductPage() {
+    
     const {productId} = useParams();
     const productWithGivenId = useSelector(state => selectProductById(state, productId));
+
 
     if (!productId) return (
         <div className="h-screen w-screen flex items-center justify-center flex-col text-center  mt-20 mx-auto text-4xl font-semibold mb-10 text-white ">
@@ -94,7 +96,6 @@ export default function SinleProductPage() {
                     
                     <div className="flex flex-col gap-y-2 justify-between">
                         <IsLoggedIn productId={productWithGivenId.id} message={"Login To Add To Cart"}/>
-                        <IsLoggedIn productId={productWithGivenId.id} message={"Login To Add To WhishList"} isCartMessage={"Add to whishlist"}/>
                     </div>
                 </div>
             </section>

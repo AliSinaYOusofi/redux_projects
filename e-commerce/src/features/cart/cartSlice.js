@@ -17,7 +17,6 @@ const initialState = cartAdapter.getInitialState({
 export const getProductWithGivenId = createAsyncThunk("cart/getProductWithGivenId", async(id) => {
     const response = await fetch(`https://dummyjson.com/products/${id}`);
     const json = await response.json();
-    console.log(json, 'cart thunk');
     return json;
 
 })
