@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react'
+import {  useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom'
 
 export default function Navbar() {
     const [token, setToken] = useState(false);
-
+    
+    const history = useLocation();
+    const navigation = useNavigate();
+    
     useEffect( () => {
         setToken(localStorage.getItem('token'))
-    }, [token, setToken]);
-    
+    }, [token, setToken, history.pathname]);
+
+    const handleeSignOut = () => {
+        localStorage.removeItem('token');
+        navigation("/");
+    }
     return (
         <header className="flex flex-wrap sm:justify-start rounded-md sm:flex-nowrap z-50   text-sm py-4 bg-gray-100 fixed w-[90%] top-1 left-0 right-0 mx-auto">
             <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
@@ -39,6 +47,8 @@ export default function Navbar() {
                             (
                                 <React.Fragment>
                                     <Link to="/cart" className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500">Cart</Link>
+                                    <p onClick={handleeSignOut} className="font-medium cursor-pointer text-red-600 transition-all duration-300 hover:animate-bounce">Sign out</p>
+                                
                                 </React.Fragment>
                             )
                             : <React.Fragment>
