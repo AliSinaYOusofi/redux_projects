@@ -1,16 +1,19 @@
 import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { apiKey } from '../../key/key';
 
 export const apiSlice = createApi( {
     
     reducerPath: "api",
     
-    baseQuery: fetchBaseQuery({baseUrl: `https://newsapi.org/v2/everything&apiKey=e78c3c2de41e4c6c8c14e0982886f47f`}),
+    baseQuery: fetchBaseQuery({baseUrl: `https://api.newscatcherapi.com/v2/latest_headlines`, headers: {
+        'x-api-key': apiKey
+    }}),
     
     endpoints: builder => ({
-        getNews: builder.query({
-            query: () => "/news"
+        getHeadlines: builder.query({
+            query: () => ""
         })
     })
 })
 
-export const {useGetNewsQuery} = apiSlice;
+export const { useGetHeadlinesQuery } = apiSlice;
