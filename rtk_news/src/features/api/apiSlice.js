@@ -5,15 +5,32 @@ export const apiSlice = createApi( {
     
     reducerPath: "api",
     
-    baseQuery: fetchBaseQuery({baseUrl: `https://api.newscatcherapi.com/v2/latest_headlines`, headers: {
+    baseQuery: fetchBaseQuery({baseUrl: `https://api.newscatcherapi.com/v2`, headers: {
         'x-api-key': apiKey
     }}),
+
+    tagTypes: ["News"],
     
     endpoints: builder => ({
+        
         getHeadlines: builder.query({
-            query: () => ""
+            query: () => "/latest_headlines?&lang=en&topic=sport&page_size=10",
+            providesTags: ["News"]
+        }),
+        
+        getSingleNews: builder.query({
+            query: (title) => `/search?lang=end&title=${title}&lang=en&page_size=2`
+        }),
+
+        addNews: builder.mutation({
+            query: initialPost => ({
+                url: "/addNews",
+                method: "POST",
+                body: initialPost
+            }),
+            invalidatesTags: ["News"]
         })
     })
 })
 
-export const { useGetHeadlinesQuery } = apiSlice;
+export const { useGetHeadlinesQuery, useGetSingleNewsQuery, useAddNewsMutation } = apiSlice;
