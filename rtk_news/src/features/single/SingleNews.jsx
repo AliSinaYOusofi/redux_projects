@@ -1,16 +1,18 @@
 import React from 'react'
-import { useGetHeadlinesQuery } from '../api/apiSlice'
+import { useParams } from 'react-router-dom'
+import { useGetSingleNewsQuery } from '../api/apiSlice';
 import NewsCard from '../../components/NewsCard';
 
-export default function NewsList() {
+export default function SingleNews() {
+    
+    const {newsTitle} = useParams();
 
     const {
-        data: news,
+        data: singleNews = [],
         isLoading,
-        isSuccess,
         isError,
         error
-    } = useGetHeadlinesQuery();
+    } = useGetSingleNewsQuery(newsTitle);
 
     if (isLoading) {
         return (
@@ -27,7 +29,7 @@ export default function NewsList() {
     }
 
     
-    let newsList = news.articles.map(news => <NewsCard news={news}/>)
+    let newsList = singleNews.articles.map(news => <NewsCard news={news}/>)
     return (
         <div className="w-full h-full mx-auto flex flex-col justify-center gap-x-2 gap-y-2 items-center flex-wrap">{newsList}</div>
     )
