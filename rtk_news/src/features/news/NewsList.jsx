@@ -2,7 +2,7 @@ import React from 'react'
 import { useGetHeadlinesQuery } from '../api/apiSlice'
 import NewsCard from '../../components/NewsCard';
 
-export default function NewsList() {
+export default function NewsList({id}) {
 
     const {
         data: news,
@@ -10,7 +10,12 @@ export default function NewsList() {
         isSuccess,
         isError,
         error
-    } = useGetHeadlinesQuery();
+    } = useGetHeadlinesQuery(undefined, {
+        selectFromResult: result => ({
+            ...result,
+            newsOfUser: selectNewsOfUser(result, id)
+        })
+    });
 
     if (isLoading) {
         return (
