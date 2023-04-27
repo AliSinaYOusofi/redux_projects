@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { apiKey } from '../../key/key';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const apiSlice = createApi( {
     
@@ -44,9 +45,41 @@ export const apiSlice = createApi( {
                 method: "PATCH",
                 body: newsData
             }),
-            invalidatesTags: (result, error, arg) => [{type: "News", id: arg.id}]
+            invalidatesTags: (result, error, arg) => [{type: "News", id: arg.id}],
+            async onQueryStarted({newsId, newsName}, {dispatch, queryFulfilled}) {
+                const patchResult = dispatch(
+                    apiSlice.util.updateQueryData("getSingleNews", undefined, draft => {
+                        const news = draft.find(news => news.id === newsId);
+
+                        if (news) {
+                            headline.likes[like]++;
+                        }
+                    })
+                
+                )
+                try {
+                    await queryFulfilled
+                } catch (error) {
+                    patchResult.undo();
+                }
+            }
         })
     })
 })
 
+
+// select news based on id from the cached data
+
+export const selectAllNews = apiSlice.endpoints.getHeadlines.select();
+
+export const allHeadlines = createSelector(
+    selectAllNews,
+    newsResult => selectAllNews?.data ?? []
+)
+
+export const selectHeadlinesById = createSelector(
+    allHeadlines,
+    (state, newsId) => newsId,
+    (news, newsId) => news.find(news => news.id === newsId)
+)
 export const { useGetHeadlinesQuery, useGetSingleNewsQuery, useAddNewsMutation } = apiSlice;
